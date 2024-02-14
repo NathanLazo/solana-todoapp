@@ -51,7 +51,7 @@ export function CreateTodo({
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <Button>Open popover</Button>
+        <p>Open popover</p>
       </PopoverTrigger>
       <PopoverContent className='w-80'>
         <div className='grid gap-4'>

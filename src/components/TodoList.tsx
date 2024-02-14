@@ -6,6 +6,7 @@ import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useEffect, useState } from "react";
 // library we use to interact with the solana json rpc api
 import * as web3 from "@solana/web3.js";
+import { toast } from "sonner";
 
 type TodoType = {
   id: string;
@@ -39,6 +40,14 @@ export default function TodoList({
   // user's public key of the wallet they connected to our application
   const { publicKey } = useWallet();
   console.log("🚀 ~ Home ~ publicKey:", publicKey);
+
+  useEffect(() => {
+    if (!publicKey) {
+      toast.error("Connect your wallet to view your todos");
+      return;
+    }
+    toast.success("Wallet connected");
+  }, [publicKey]);
 
   // when the status of `connection` or `publicKey` changes, we execute the code block below
   useEffect(() => {
@@ -141,7 +150,7 @@ export default function TodoList({
                     });
                   }}
                 >
-                  {item.done ? "Completed" : "Pending"}
+                  <p>{item.done ? "Completed" : "Pending"}</p>
                 </button>
               }
             </td>
