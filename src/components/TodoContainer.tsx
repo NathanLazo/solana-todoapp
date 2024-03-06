@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { CreateTodo } from "./CreateTodo";
 import TodoList from "./TodoList";
+import { useTodo } from "~/hooks/useTodos";
+import { Button } from "./ui/button";
 
 type TodoType = {
   id: string;
@@ -11,6 +13,26 @@ type TodoType = {
 
 export default function TodoContainer() {
   const [todos, setTodos] = useState<TodoType[] | null>(null);
+
+  const {
+    initialized,
+    initializeUser,
+    loading,
+    transactionPending,
+    completedTodos,
+    incompleteTodos,
+    addTodo,
+    markTodo,
+    removeTodo,
+    // markStaticTodo,
+    // removeStaticTodo,
+    // addStaticTodo,
+    // input,
+    // handleChange,
+  } = useTodo();
+
+  console.log("🚀 ~ TodoContainer ~ completedTodos:", completedTodos);
+  initializeUser();
 
   return (
     <main className=' w-full flex justify-center items-center'>

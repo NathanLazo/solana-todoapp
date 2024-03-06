@@ -1,12 +1,4 @@
 "use client";
-import { CreateTodo } from "./CreateTodo";
-
-// imports methods for deriving data from the wallet's data store
-import { useConnection, useWallet } from "@solana/wallet-adapter-react";
-import { useEffect, useState } from "react";
-// library we use to interact with the solana json rpc api
-import * as web3 from "@solana/web3.js";
-import { toast } from "sonner";
 
 type TodoType = {
   id: string;
@@ -31,37 +23,6 @@ export default function TodoList({
   todos: TodoType[] | null;
   setTodos: (todos: TodoType[] | null) => void;
 }) {
-  // allows us to add the wallet account balance to our react function component
-  const [balance, setBalance] = useState<number | null>(0);
-  console.log("🚀 ~ Home ~ balance:", balance);
-
-  // connection context object that is injected into the browser by the wallet
-  const { connection } = useConnection();
-  // user's public key of the wallet they connected to our application
-  const { publicKey } = useWallet();
-  console.log("🚀 ~ Home ~ publicKey:", publicKey);
-
-  useEffect(() => {
-    if (!publicKey) {
-      toast.error("Connect your wallet to view your todos");
-      return;
-    }
-    toast.success("Wallet connected");
-  }, [publicKey]);
-
-  // when the status of `connection` or `publicKey` changes, we execute the code block below
-  useEffect(() => {
-    const getInfo = async () => {
-      if (connection && publicKey) {
-        // we get the account info for the user's wallet data store and set the balance in our application's state
-        const info = await connection.getAccountInfo(publicKey);
-        setBalance(info!.lamports / web3.LAMPORTS_PER_SOL);
-      }
-    };
-    getInfo();
-    // the code above will execute whenever these variables change in any way
-  }, [connection, publicKey]);
-
   return (
     <table className='mt-6 w-full whitespace-nowrap text-left'>
       <colgroup>
